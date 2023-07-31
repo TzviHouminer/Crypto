@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="js/myjs.js"></script>
+    <link rel="stylesheet" href="css/mycss.css"/>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Crypto</title>
+</head>
+<body>
+    <div class="background">
+            <span class="headerContent pl-2">CrypToBuy</span>
+    </div>
+    <div class="container p-4">
+        <div class="bar p-2 mb-2 d-flex justify-content-between">
+            <div class="flex-row">
+                <button type="button" class="btn btn-link home">Home</button>
+                <button type="button" class="btn btn-link reports">Live Reports</button>
+                <button type="button" class="btn btn-link about">About</button>
+            </div>
+            <div class="">
+                <input type="text" id="searchBox" placeholder="Enter coin's id"/>
+                <button type="button" class="btn btn-light search">Search</button>
+            </div>
+        </div>
+        <div class="cardsContainer mb-2 d-flex flex-wrap" id="cardsContainer"></div>
+    </div>
+
+    <div class="modal fade" id="replaceCoinModal" tabindex="-1" role="dialog" aria-labelledby="modalLable" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLable">Too many coins!</h5>
+            </div>
+            <form class="replacePickForm">
+                <div class="modal-body">
+                    <div>chose one coin to replace</div>
+                    <div class="d-flex justify-content-between" id="chosenCoinsData"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closeModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
