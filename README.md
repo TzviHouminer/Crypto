@@ -17,9 +17,9 @@ Open the 'index.html' file in your preferred web browser.
 2. Display of values in USD, EUR, and NIS.
 3. Responsive design with Bootstrap for a seamless user experience on various devices.
 
-#How to Use
+# How to Use
 Upon opening the web app in your browser, you will see a list of popular cryptocurrencies.
 Each cryptocurrency entry will show its current value in dollars, euros, and NIS.
 
-#API Used
+# API Used
 The web app fetches real-time crypto currency data from a public API (CoinGecko API). The API provides the latest values of various cryptocurrencies in different currencies, which are then displayed on the CrypToBuy web app.
