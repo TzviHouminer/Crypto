@@ -6,6 +6,7 @@ CrypToBuy is a simple web application built using HTML, JavaScript, CSS, and Boo
 * JavaScript
 * CSS
 * Bootstrap
+* jQuery
 
 # Installation and Setup
 Download the source code from https://github.com/TzviHouminer/Crypto.git

@@ -22,14 +22,15 @@
                 <button type="button" class="btn btn-link home">Home</button>
                 <button type="button" class="btn btn-link about">About</button>
             </div>
-            <div class="">
-                <input type="text" id="searchBox" placeholder="Enter coin's id"/>
+            <div>
+                <input type="text" id="searchBox" placeholder="Enter coin's id ('bitcoin')"/>
                 <button type="button" class="btn btn-light search">Search</button>
             </div>
         </div>
         <div class="cardsContainer mb-2 d-flex flex-wrap" id="cardsContainer"></div>
     </div>
 
+    <!-- modal popup if user pick more than 5 coins, than offers to replace one -->
     <div class="modal fade" id="replaceCoinModal" tabindex="-1" role="dialog" aria-labelledby="modalLable" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

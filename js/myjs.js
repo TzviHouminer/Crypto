@@ -4,25 +4,36 @@ const testUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&
 
 let coins = [];
 let chosenCoins = [];
-$(()=>{
-    $('.home').on("click", async()=>{
-        progressBar('cardsContainer');
-        coins = await $.get(allUrl);
-        buildCards();
-        if(chosenCoins.length>0){
-            chosenCoins.map(item=>$('#'+item).prop("checked",true))
+$(async()=>{
+    
+    //get 100 most popular coins. to get all coins in the api - replace "testUrl" with "allUrl" 
+    coins = await $.get(testUrl);
+    buildCards(coins);
+
+    $('.home').on("click",()=>{
+        buildCards(coins);
+    });
+
+    //activate the search if click or press enter
+    $('.search').on("click", ()=> {searchCoin()});
+    $('#searchBox').keypress((event)=>{
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            searchCoin();  
         }
     });
-    $('.home').click();
-    $('.search').on("click", ()=> {searchCoin(buildCards)});
+
     $('.about').on("click",about);
     $('.closeModal').on("click", ()=>{$('#replaceCoinModal').modal('hide');} )
-    $(window).on('beforeunload', ()=>{caches.delete("myCache")}) //delete the cache even when refreshing the page before the delete function activates.
+
+    //delete the cache even when refreshing the page before the delete function activates.
+    $(window).on('beforeunload', ()=>{caches.delete("myCache")}) 
 })
 
-const buildCards = () => {
+const buildCards = (coinsList) => {
+    progressBar('cardsContainer');
     let result = ''
-    coins.map((item)=>{
+    coinsList.map((item)=>{
         result += `
         <div class="card m-2">
             <div class="card-body" style="width:100%">
@@ -42,40 +53,37 @@ const buildCards = () => {
         `
     });
     $('.cardsContainer').html(result);
+
+    // check coin boxs if already selected.
+    if(chosenCoins.length>0){
+        chosenCoins.map(item=>$('#'+item).prop("checked",true))
+    }
 }
 
-const searchCoin = async (callback) => {
+const searchCoin = async () => {
     progressBar('cardsContainer');
     let coinId =  $('#searchBox').val();
-    fetch(searchUrl+coinId)
-    .then(response => {
-        if (response.ok){
-            response.json()
-            .then(data=>{
-                coins = [data];
-                callback();
-            })
-        }else{
-            console.log("It is not an coin's id.")
-            coins = [];
-            callback();
-        }
-    })
+    let searched = coins.find(item=>item.id == coinId);
+    searched ? buildCards([searched]) : buildCards([]);
 }
 
 const moreInfo = (id) => {
-    if($(`#${id}`).hasClass("show")){ // if clicked to hide:
+
+    // if clicked to hide:
+    if($(`#${id}`).hasClass("show")){
         $(`#${id}`).collapse('toggle');
         return
     
-    }else{ // if clicked to show:
+    // if clicked to show:
+    }else{
         progressBar(id);
         $(`#${id}`).collapse('toggle');
         caches.open('myCache')
         .then(cache=>{return cache.match(id)})
         .then(response =>{
             
-            if(! response){ // if there is no data about this coin in the cache
+            // if there is no data about this coin in the cache
+            if(! response){
                 let info
                 $(async()=>{
                     info = await $.get(searchUrl+id)
@@ -106,7 +114,8 @@ const moreInfo = (id) => {
                     },1000*60*2);
                 });
 
-            }else{ //if there is already data about the coin in cache
+            //if there is already data about the coin in cache
+            }else{ 
                 caches.open('myCache').then((cache)=>{
                     cache.match(id).then((response)=>{
                         response.json().then((data)=>{
@@ -130,13 +139,21 @@ const progressBar = (divId) => {
 }
 
 const handleToggle = (inputObj) => {
-    if(inputObj.checked){ //try add the coin
-        if(chosenCoins.length>=5){ //there is no space
+
+    //try add the coin
+    if(inputObj.checked){ 
+
+        //there is no space
+        if(chosenCoins.length>=5){ 
             $(inputObj).prop("checked",false)
             fullList(inputObj);
-        }else{chosenCoins.push(inputObj.id)} //there is space
+        
+        //there is space
+        }else{chosenCoins.push(inputObj.id)}
+
+    //try remove the coin
     }else{
-        chosenCoins = chosenCoins.filter(item=> item!=inputObj.id) //try remove the coin
+        chosenCoins = chosenCoins.filter(item=> item!=inputObj.id)
     }
 }
 
@@ -153,7 +170,9 @@ const fullList = (newPickObj) => {
     $('#chosenCoinsData').html(chosenCoinsData);
     $('#replaceCoinModal').modal('show');
     $('.replacePickForm').submit((event)=>{
-        event.preventDefault(); // prevent form from submitting
+        
+        // prevent form from submitting
+        event.preventDefault();
         let selectedValue = $('input[name=remove]:checked').val();
         if (!selectedValue){return};
 
