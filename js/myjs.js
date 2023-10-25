@@ -54,7 +54,7 @@ const buildCards = (coinsList) => {
     });
     $('.cardsContainer').html(result);
 
-    // check coin boxs if already selected.
+    // check coin boxes if already selected.
     if(chosenCoins.length>0){
         chosenCoins.map(item=>$('#'+item).prop("checked",true))
     }
